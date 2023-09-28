@@ -1,6 +1,6 @@
 let tl = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
 
-tl.to("#create", {y:'0%', duration:0.7, stagger:0.2, delay:1});
+tl.to("#create", {y:'0%', duration:0.7, stagger:0.2, delay:3.5});
 
 
 
@@ -638,6 +638,8 @@ const links = [
 
 
 
+
+
 const themeToggle = document.getElementById('switch');
 const lightBg = document.getElementById("light-bg");
 
@@ -660,3 +662,22 @@ var rellax = new Rellax('.rellax');
 
 
 
+paceOptions = {
+    ajax: true,
+    document: true,
+    eventLag: false
+};
+
+Pace.on('done', function() {
+    $('.p').delay(500).animate({top: '30%', opacity: '0'}, 3000, $.bez([0.19,1,0.22,1]));
+
+
+    $('#preloader').delay(1500).animate({top: '-100%'}, 2000, $.bez([0.19,1,0.22,1]));
+
+    TweenMax.from(".hero-1", 2, {
+         delay: 1.2,
+              y: 10,
+              opacity: 0,
+              ease: Expo.easeInOut
+        })
+   });
