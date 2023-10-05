@@ -1,32 +1,119 @@
-let tl = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+gsap.to(".image-siuu svg", {
+    scale: 100,
+    opacity: 1,
+    stagger: 0.25,
+    duration: 1,
+    transformOrigin: "50% 57%",
+    scrollTrigger: {
+      trigger: ".hero-4",
+      pin: true,
+      end: `+=${innerHeight * 1}`, // Adjust this value to reduce scrolling distance
+      scrub: 2,
+      ease: Power4.easeIn,
+      onUpdate: (self) => {
+        // Update the opacity based on the scroll progress
+        gsap.to(".image-suii", {
+          opacity: self.progress,
+        });
+      }
+    }
+  });
+  
+  var rellax = new Rellax('.rellax');
 
-tl.to("#create", {y:'0%', duration:0.7, stagger:0.2, delay:3.5});
+
+
+
+
+
+
+
+
+let tl = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+let tl2 = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+
+tl2.to("#create", {y:'0%', duration:0.7, stagger:0, delay:3.5});
+
+
+
+
+
+var purchase = document.getElementById('purchase');
+var vehicles = document.getElementById('vehicles');
+var accessories = document.getElementById('accessories');
+
+var detailsPurchase = document.querySelector('.details-purchase');
+var detailsVehicles = document.querySelector('.details-vehicles');
+var detailsAccessories = document.querySelector('.details-accessories');
+
+function purchaseSection() {
+    purchase.style.color = '#fff';
+    vehicles.style.color = '#939393';
+    accessories.style.color = '#939393';
+
+    detailsPurchase.style.display = 'block';
+    detailsVehicles.style.display = 'none';
+    detailsAccessories.style.display = 'none';
+
+    detailsPurchase.style.animation = 'fade 0.5s forwards';
+}
+
+function vehiclesSection() {
+    purchase.style.color = '#939393';
+    vehicles.style.color = '#fff';
+    accessories.style.color = '#939393';
+
+    detailsPurchase.style.display = 'none';
+    detailsVehicles.style.display = 'block';
+    detailsAccessories.style.display = 'none';
+
+    detailsVehicles.style.animation = 'fade 0.5s forwards';
+}
+
+function accessoriesSection() {
+    purchase.style.color = '#939393';
+    vehicles.style.color = '#939393';
+    accessories.style.color = '#fff';
+
+    detailsPurchase.style.display = 'none';
+    detailsVehicles.style.display = 'none';
+    detailsAccessories.style.display = 'block';
+
+    detailsAccessories.style.animation = 'fade 0.5s forwards';
+}
+
+
 
 
 
 // Audio ON/OFF for video button
 
 var audioBtn = document.querySelector('.audio-btn');
-var video = document.querySelector('video');
-var line = document.querySelector('.line');
+var audio = document.getElementById('audioPlayer');
+var audioBtnLine1 = document.querySelector('.line-visible');
+var audioBtnLine2 = document.querySelector('.line');
+
+let isPlaying = false;
 
 audioBtn.addEventListener('click', function() {
-    if (video.muted) {
-        // Unmute the video
-        video.muted = false;
-        audioBtn.innerHTML = 'Audio ON';
-        line.classList.toggle('show-line');
-    } else {
-        // Mute the video
-        video.muted = true;
+    if (isPlaying) {
+        audio.pause();
         audioBtn.innerHTML = 'Audio OFF';
-        line.classList.remove('show-line');
+        audioBtnLine2.classList.remove('show-line');
+    } else {
+        audio.play();
+        audioBtn.innerHTML = 'Audio ON';
+        audioBtnLine2.classList.toggle('show-line');
     }
+    isPlaying = !isPlaying;
 });
+
+
 
 
 // Pause/resume video button
 
+var video = document.querySelector('video');
 const pauseButton = document.querySelector('.pause-button');
 
 pauseButton.addEventListener('click', function() {
@@ -45,10 +132,15 @@ pauseButton.addEventListener('click', function() {
 
 $(window).scroll(function() {
     var scroll = $(window).scrollTop();
+    var opacity = 1 - (scroll / $(document).height());
+
     $(".hero-1 video").css({
-        height: (100 + scroll / 4) + "%"
+        height: (100 + scroll / 4) + "%",
+        opacity: opacity
     })
 })
+
+
 
 
 // scroll fade
@@ -62,70 +154,15 @@ var prevScrollpos = window.scrollY;
 
 window.onscroll = function() {
     var currentScrollPos = window.scrollY;
-    if (currentScrollPos <= 74) {
-        navbar.style.visibility = "visible";
-        navbar.style.opacity = "1";
-
-        // title.style.visibility = "visible";
-        // title.style.opacity = "1";
-
-        scrollParagraph.style.visibility = "visible";
-        scrollParagraph.style.opacity = "1";
-
-        downArrow1.style.opacity = "1";
-        downArrow2.style.opacity = "1";
-        downArrow1.style.visibility = 'visible';
-        downArrow2.style.visibility = 'visible';
-    } else {
-        navbar.style.visibility = "hidden";
-        navbar.style.opacity = "0";
-        navbar.style.transition = '0.4s';
-
-        // title.style.visibility = "hidden";
-        // title.style.opacity = "0";
-
-        scrollParagraph.style.visibility = "hidden";
-        scrollParagraph.style.opacity = "0";
-
-        downArrow1.style.opacity = "0";
-        downArrow2.style.opacity = "0";
-        downArrow1.style.visibility = 'hidden';
-        downArrow2.style.visibility = 'hidden';
-    }
-
-
-    if (currentScrollPos <= 220) {
-        pauseButton.style.opacity = "1";
-        pauseButton.style.visibility = 'visible';
-
-        audioBtn.style.opacity = "1";
-        audioBtn.style.visibility = 'visible';
-        
-        // line.style.opacity = "1";
-        // line.style.visibility = 'visible';
-    } else {
-        pauseButton.style.opacity = "0";
-        pauseButton.style.visibility = 'hidden';
-
-        audioBtn.style.opacity = "0";
-        audioBtn.style.visibility = 'hidden';
-
-        // line.style.opacity = "0";
-        // line.style.visibility = 'hidden';
-    }
 
     if (currentScrollPos >= 1300) {
-        tl.to("#create2", {y:'0%', duration:0.7, stagger:0.2});
-        tl.to("#create3", {x:'0%', duration:0.7, stagger:0.2});
+        tl2.to("#create2", {y:'0%', duration:0.7, stagger:0.2, delay:0});
+        tl2.to("#create3", {x:'0%', duration:0.7, stagger:0.2, delay:0});
     } 
 }
+   
 
-const element = document.getElementById('title-1');
 
-const x = element.offsetLeft;
-const y = element.offsetTop;
-
-console.log(`X: ${x}, Y: ${y}`);
 
 
 window.addEventListener("scroll", () => {
@@ -140,10 +177,32 @@ window.addEventListener("scroll", () => {
         // Set the opacity of the image
         title.style.opacity = opacity;
         title2.style.opacity = opacity;
+
+        audioBtn.style.opacity = opacity;
+
+        pauseButton.style.opacity = opacity;
+
+        downArrow1.style.opacity = opacity;
+        downArrow2.style.opacity = opacity;
+
+        scrollParagraph.style.opacity = opacity;
+
+        audioBtnLine1.style.opacity = opacity;
     } else {
         // Reset the opacity to 1 if the user scrolls back up
         title.style.opacity = 1;
         title2.style.opacity = 1;
+
+        audioBtn.style.opacity = 1;
+
+        pauseButton.style.opacity = 1;
+
+        downArrow1.style.opacity = 1;
+        downArrow2.style.opacity = 1;
+
+        scrollParagraph.style.opacity = 1;
+
+        audioBtnLine1.style.opacity = 1;
     }
 });
 
@@ -173,42 +232,84 @@ window.addEventListener("scroll", () => {
 
 // Navbar
 
-var all = document.getElementById('all');
-var navItems = document.querySelector('.nav-items');
+// var all = document.getElementById('all');
+// var navItems = document.querySelector('.nav-items');
+// var menuIcon = document.querySelector('.menu-icon');
+// var topIconPart = document.querySelector('.top');
+// var bottomIconPart = document.querySelector('.bottom');
+// var blackSpace = document.querySelector('.black-space');
+
+// function openMenu() {
+//     navItems.style.display = 'flex';
+//     blackSpace.style.display = 'block';
+//     document.documentElement.style.overflowY = 'hidden';
+//     document.body.style.overflowY = 'hidden';
+//     // menuIcon.style.marginRight = '17px';
+//     topIconPart.classList.add('active-top');
+//     bottomIconPart.classList.add('active-bottom');
+//     // Apply the slide animation when opening the menu
+//     navItems.style.animation = 'slide 0.5s forwards';
+//     blackSpace.style.animation = 'slide 0.5s forwards';
+// }
+
+// function closeMenu() {
+//     // Apply the "back" animation to the entire nav-items element
+//     navItems.style.animation = 'back 0.5s forwards';
+//     blackSpace.style.animation = 'back 0.5s forwards';
+//     setTimeout(function () {
+//         navItems.style.display = 'none';
+//         blackSpace.style.display = 'none';
+//         document.documentElement.style.overflowY = 'auto';
+//         document.body.style.overflowY = 'auto';
+//         // menuIcon.style.marginRight = '0';
+//         topIconPart.classList.remove('active-top');
+//         bottomIconPart.classList.remove('active-bottom');
+//         // Reset the animation properties for the nav-items element
+//         navItems.style.animation = '';
+//         blackSpace.style.animation = '';
+//     }, 500); // Adjust the timeout value to match the animation duration
+// }
+
+// menuIcon.addEventListener('click', function () {
+//     if (navItems.style.display === 'none' || navItems.style.display === '') {
+//         openMenu();
+//     } else {
+//         closeMenu();
+//     }
+// });
+
+
+
+
+
+var navItems = document.querySelector('.navvv');
 var menuIcon = document.querySelector('.menu-icon');
 var topIconPart = document.querySelector('.top');
 var bottomIconPart = document.querySelector('.bottom');
-var blackSpace = document.querySelector('.black-space');
+var createNav = document.getElementById('create6');
 
 function openMenu() {
+    tl.to("#create6", {y:'0%', duration:0.7, stagger: 0.1, delay:1});
     navItems.style.display = 'flex';
-    blackSpace.style.display = 'block';
+    navItems.style.animation = 'fade-in 1s';
     document.documentElement.style.overflowY = 'hidden';
     document.body.style.overflowY = 'hidden';
-    // menuIcon.style.marginRight = '17px';
     topIconPart.classList.add('active-top');
     bottomIconPart.classList.add('active-bottom');
-    // Apply the slide animation when opening the menu
-    navItems.style.animation = 'slide 0.5s forwards';
-    blackSpace.style.animation = 'slide 0.5s forwards';
 }
 
 function closeMenu() {
-    // Apply the "back" animation to the entire nav-items element
-    navItems.style.animation = 'back 0.5s forwards';
-    blackSpace.style.animation = 'back 0.5s forwards';
+    tl.to("#create6", {y:'100%', duration:0.7, stagger: 0, delay:0.5});
     setTimeout(function () {
         navItems.style.display = 'none';
-        blackSpace.style.display = 'none';
+    }, 1500)
+    setTimeout(function () {
+        navItems.style.animation = 'fade-out 1s';
         document.documentElement.style.overflowY = 'auto';
         document.body.style.overflowY = 'auto';
-        // menuIcon.style.marginRight = '0';
         topIconPart.classList.remove('active-top');
         bottomIconPart.classList.remove('active-bottom');
-        // Reset the animation properties for the nav-items element
-        navItems.style.animation = '';
-        blackSpace.style.animation = '';
-    }, 500); // Adjust the timeout value to match the animation duration
+    }, 1000); // Adjust the timeout value to match the animation duration
 }
 
 menuIcon.addEventListener('click', function () {
@@ -218,7 +319,6 @@ menuIcon.addEventListener('click', function () {
         closeMenu();
     }
 });
-
 
   
 
@@ -368,6 +468,14 @@ const acc1 = document.getElementById('acc-btn-1');
 const acc2 = document.getElementById('acc-btn-2');
 const acc3 = document.getElementById('acc-btn-3');
 const acc4 = document.getElementById('acc-btn-4');
+
+
+
+
+
+
+
+
 
 var img1 = document.getElementById('image-1-hero-3');
 var img2 = document.getElementById('image-2-hero-3');
@@ -602,12 +710,16 @@ const links = [
     document.getElementById('nav-links-1'),
     document.getElementById('nav-links-2'),
     document.getElementById('nav-links-3'),
-    document.getElementById('nav-links-4'),
+    // document.getElementById('nav-links-4'),
     document.getElementById('nav-links-5'),
     acc1,
     acc2,
     acc3,
-    acc4
+    acc4,
+    document.getElementById('purchase'),
+    document.getElementById('vehicles'),
+    document.getElementById('accessories'),
+    document.getElementById('brand-footer')
 ];
   
   function addRandomTextEffect(link) {
@@ -640,23 +752,22 @@ const links = [
 
 
 
-const themeToggle = document.getElementById('switch');
-const lightBg = document.getElementById("light-bg");
-
-themeToggle.addEventListener('mousedown', function() {
-    document.body.classList.toggle("light-theme");
-    lightBg.classList.toggle("show");
-
-    if(!lightBg.classList.contains("show")) {
-        document.body.classList.remove("light-theme");
-        lightBg.classList.remove("show");
-    }
-}) 
 
 
 
 
-var rellax = new Rellax('.rellax');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -681,3 +792,5 @@ Pace.on('done', function() {
               ease: Expo.easeInOut
         })
    });
+
+
