@@ -1,32 +1,187 @@
-let tl = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+gsap.to(".image-siuu svg", {
+    scale: 200,
+    opacity: 1,
+    stagger: 0.25,
+    duration: 1,
+    transformOrigin: "50% 45.7%",
+    scrollTrigger: {
+      trigger: ".hero-4",
+      start: "top top", // Start the animation when the top of the section is at the top of the viewport
+      end: `+=${innerHeight * 2}`, // End the animation when the section is fully out of the viewport
+      scrub: 0.5,
+      ease: Power4.easeIn,
+      onUpdate: (self) => {
+        // Update the opacity based on the scroll progress
+        gsap.to(".image-suii", {
+          opacity: self.progress,
+        });
+      }
+    }
+});
 
-tl.to("#create", {y:'0%', duration:0.7, stagger:0.2, delay:3.5});
+
+
+
+var rellax = new Rellax('.rellax');
+
+
+
+
+
+
+
+
+
+let tl = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+let tl2 = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+let tl3 = gsap.timeline({defaults: {ease: "SlowMo.easeOut"}});
+
+tl2.to("#create", {y:'0%', duration:0.7, stagger:0, delay:3.5});
+
+
+
+
+
+
+var navItems = document.querySelector('.navvv');
+var menuIcon = document.querySelector('.menu-icon');
+var navBrand = document.querySelector('.navbar-brand');
+var topIconPart = document.querySelector('.top');
+var bottomIconPart = document.querySelector('.bottom');
+var createNav = document.getElementById('create6');
+
+var menuIconClickable = true; // Initialize the flag
+
+function openMenu() {
+    if (menuIconClickable) {
+        tl.to("#create6", { y: '0%', duration: 0.7, stagger: 0.1, delay: 1 });
+        document.documentElement.style.overflowY = 'hidden !important';
+        document.body.style.overflowY = 'hidden !important';
+        navItems.style.display = 'flex';
+        navItems.style.animation = 'fade-in 1s';
+        topIconPart.classList.add('active-top');
+        bottomIconPart.classList.add('active-bottom');
+
+        // Set the flag to false to prevent further clicks
+        menuIconClickable = false;
+
+        // Set a timeout to re-enable the button after a delay (for example, 2 seconds)
+        setTimeout(function () {
+            menuIconClickable = true;
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+}
+
+function closeMenu() {
+    if (menuIconClickable) {
+        tl.to("#create6", { y: '100%', duration: 0.7, stagger: 0, delay: 0.5 });
+        setTimeout(function () {
+            document.documentElement.style.overflowY = 'auto !important';
+            document.body.style.overflowY = 'auto !important';
+            navItems.style.animation = 'fade-out 1s';
+        }, 1000); // Adjust the timeout value to match the animation duration
+        topIconPart.classList.remove('active-top');
+        bottomIconPart.classList.remove('active-bottom');
+        setTimeout(function () {
+            navItems.style.display = 'none';
+        }, 1500);
+
+        // Set the flag to false to prevent further clicks
+        menuIconClickable = false;
+
+        // Set a timeout to re-enable the button after a delay (for example, 2 seconds)
+        setTimeout(function () {
+            menuIconClickable = true;
+        }, 2000); // 2000 milliseconds = 2 seconds
+    }
+}
+
+menuIcon.addEventListener('click', function () {
+    if (navItems.style.display === 'none' || navItems.style.display === '') {
+        openMenu();
+    } else {
+        closeMenu();
+    }
+});
+
+
+
+var purchase = document.getElementById('purchase');
+var vehicles = document.getElementById('vehicles');
+var contactUs = document.getElementById('contact-us');
+
+var detailsPurchase = document.querySelector('.details-purchase');
+var detailsVehicles = document.querySelector('.details-vehicles');
+var detailsContactUs = document.querySelector('.details-contact-us');
+
+function purchaseSection() {
+    purchase.style.color = '#fff';
+    vehicles.style.color = '#939393';
+    contactUs.style.color = '#939393';
+
+    detailsPurchase.style.display = 'block';
+    detailsVehicles.style.display = 'none';
+    detailsContactUs.style.display = 'none';
+
+    detailsPurchase.style.animation = 'fade 0.5s forwards';
+}
+
+function vehiclesSection() {
+    purchase.style.color = '#939393';
+    vehicles.style.color = '#fff';
+    contactUs.style.color = '#939393';
+
+    detailsPurchase.style.display = 'none';
+    detailsVehicles.style.display = 'block';
+    detailsContactUs.style.display = 'none';
+
+    detailsVehicles.style.animation = 'fade 0.5s forwards';
+}
+
+function accessoriesSection() {
+    purchase.style.color = '#939393';
+    vehicles.style.color = '#939393';
+    contactUs.style.color = '#fff';
+
+    detailsPurchase.style.display = 'none';
+    detailsVehicles.style.display = 'none';
+    detailsContactUs.style.display = 'block';
+
+    detailsContactUs.style.animation = 'fade 0.5s forwards';
+}
+
+
 
 
 
 // Audio ON/OFF for video button
 
 var audioBtn = document.querySelector('.audio-btn');
-var video = document.querySelector('video');
-var line = document.querySelector('.line');
+var audio = document.getElementById('audioPlayer');
+var audioBtnLine1 = document.querySelector('.line-visible');
+var audioBtnLine2 = document.querySelector('.line');
+
+let isPlaying = false;
 
 audioBtn.addEventListener('click', function() {
-    if (video.muted) {
-        // Unmute the video
-        video.muted = false;
-        audioBtn.innerHTML = 'Audio ON';
-        line.classList.toggle('show-line');
-    } else {
-        // Mute the video
-        video.muted = true;
+    if (isPlaying) {
+        audio.pause();
         audioBtn.innerHTML = 'Audio OFF';
-        line.classList.remove('show-line');
+        audioBtnLine2.classList.remove('show-line');
+    } else {
+        audio.play();
+        audioBtn.innerHTML = 'Audio ON';
+        audioBtnLine2.classList.toggle('show-line');
     }
+    isPlaying = !isPlaying;
 });
+
+
 
 
 // Pause/resume video button
 
+var video = document.querySelector('video');
 const pauseButton = document.querySelector('.pause-button');
 
 pauseButton.addEventListener('click', function() {
@@ -45,10 +200,15 @@ pauseButton.addEventListener('click', function() {
 
 $(window).scroll(function() {
     var scroll = $(window).scrollTop();
+    var opacity = 1 - (scroll / $(document).height());
+
     $(".hero-1 video").css({
-        height: (100 + scroll / 4) + "%"
+        height: (100 + scroll / 4) + "%",
+        opacity: opacity
     })
 })
+
+
 
 
 // scroll fade
@@ -62,70 +222,18 @@ var prevScrollpos = window.scrollY;
 
 window.onscroll = function() {
     var currentScrollPos = window.scrollY;
-    if (currentScrollPos <= 74) {
-        navbar.style.visibility = "visible";
-        navbar.style.opacity = "1";
 
-        // title.style.visibility = "visible";
-        // title.style.opacity = "1";
-
-        scrollParagraph.style.visibility = "visible";
-        scrollParagraph.style.opacity = "1";
-
-        downArrow1.style.opacity = "1";
-        downArrow2.style.opacity = "1";
-        downArrow1.style.visibility = 'visible';
-        downArrow2.style.visibility = 'visible';
-    } else {
-        navbar.style.visibility = "hidden";
-        navbar.style.opacity = "0";
-        navbar.style.transition = '0.4s';
-
-        // title.style.visibility = "hidden";
-        // title.style.opacity = "0";
-
-        scrollParagraph.style.visibility = "hidden";
-        scrollParagraph.style.opacity = "0";
-
-        downArrow1.style.opacity = "0";
-        downArrow2.style.opacity = "0";
-        downArrow1.style.visibility = 'hidden';
-        downArrow2.style.visibility = 'hidden';
-    }
-
-
-    if (currentScrollPos <= 220) {
-        pauseButton.style.opacity = "1";
-        pauseButton.style.visibility = 'visible';
-
-        audioBtn.style.opacity = "1";
-        audioBtn.style.visibility = 'visible';
-        
-        // line.style.opacity = "1";
-        // line.style.visibility = 'visible';
-    } else {
-        pauseButton.style.opacity = "0";
-        pauseButton.style.visibility = 'hidden';
-
-        audioBtn.style.opacity = "0";
-        audioBtn.style.visibility = 'hidden';
-
-        // line.style.opacity = "0";
-        // line.style.visibility = 'hidden';
-    }
-
-    if (currentScrollPos >= 1300) {
-        tl.to("#create2", {y:'0%', duration:0.7, stagger:0.2});
-        tl.to("#create3", {x:'0%', duration:0.7, stagger:0.2});
+    if (currentScrollPos >= 4300) {
+        tl2.to("#create2", {y:'0%', duration:0.7, stagger:0.2, delay:0});
+        tl2.to("#create3", {x:'0%', duration:0.7, stagger:0.2, delay:0});
+    } 
+    if (currentScrollPos >= 8000) {
+        tl3.to("#create7", {y:'0%', duration:0.7, stagger:0.2, delay:0});
     } 
 }
+   
 
-const element = document.getElementById('title-1');
 
-const x = element.offsetLeft;
-const y = element.offsetTop;
-
-console.log(`X: ${x}, Y: ${y}`);
 
 
 window.addEventListener("scroll", () => {
@@ -140,10 +248,32 @@ window.addEventListener("scroll", () => {
         // Set the opacity of the image
         title.style.opacity = opacity;
         title2.style.opacity = opacity;
+
+        audioBtn.style.opacity = opacity;
+
+        pauseButton.style.opacity = opacity;
+
+        downArrow1.style.opacity = opacity;
+        downArrow2.style.opacity = opacity;
+
+        scrollParagraph.style.opacity = opacity;
+
+        audioBtnLine1.style.opacity = opacity;
     } else {
         // Reset the opacity to 1 if the user scrolls back up
         title.style.opacity = 1;
         title2.style.opacity = 1;
+
+        audioBtn.style.opacity = 1;
+
+        pauseButton.style.opacity = 1;
+
+        downArrow1.style.opacity = 1;
+        downArrow2.style.opacity = 1;
+
+        scrollParagraph.style.opacity = 1;
+
+        audioBtnLine1.style.opacity = 1;
     }
 });
 
@@ -173,188 +303,232 @@ window.addEventListener("scroll", () => {
 
 // Navbar
 
-var all = document.getElementById('all');
-var navItems = document.querySelector('.nav-items');
-var menuIcon = document.querySelector('.menu-icon');
-var topIconPart = document.querySelector('.top');
-var bottomIconPart = document.querySelector('.bottom');
-var blackSpace = document.querySelector('.black-space');
+// var all = document.getElementById('all');
+// var navItems = document.querySelector('.nav-items');
+// var menuIcon = document.querySelector('.menu-icon');
+// var topIconPart = document.querySelector('.top');
+// var bottomIconPart = document.querySelector('.bottom');
+// var blackSpace = document.querySelector('.black-space');
 
-function openMenu() {
-    navItems.style.display = 'flex';
-    blackSpace.style.display = 'block';
-    document.documentElement.style.overflowY = 'hidden';
-    document.body.style.overflowY = 'hidden';
-    // menuIcon.style.marginRight = '17px';
-    topIconPart.classList.add('active-top');
-    bottomIconPart.classList.add('active-bottom');
-    // Apply the slide animation when opening the menu
-    navItems.style.animation = 'slide 0.5s forwards';
-    blackSpace.style.animation = 'slide 0.5s forwards';
-}
+// function openMenu() {
+//     navItems.style.display = 'flex';
+//     blackSpace.style.display = 'block';
+//     document.documentElement.style.overflowY = 'hidden';
+//     document.body.style.overflowY = 'hidden';
+//     // menuIcon.style.marginRight = '17px';
+//     topIconPart.classList.add('active-top');
+//     bottomIconPart.classList.add('active-bottom');
+//     // Apply the slide animation when opening the menu
+//     navItems.style.animation = 'slide 0.5s forwards';
+//     blackSpace.style.animation = 'slide 0.5s forwards';
+// }
 
-function closeMenu() {
-    // Apply the "back" animation to the entire nav-items element
-    navItems.style.animation = 'back 0.5s forwards';
-    blackSpace.style.animation = 'back 0.5s forwards';
-    setTimeout(function () {
-        navItems.style.display = 'none';
-        blackSpace.style.display = 'none';
-        document.documentElement.style.overflowY = 'auto';
-        document.body.style.overflowY = 'auto';
-        // menuIcon.style.marginRight = '0';
-        topIconPart.classList.remove('active-top');
-        bottomIconPart.classList.remove('active-bottom');
-        // Reset the animation properties for the nav-items element
-        navItems.style.animation = '';
-        blackSpace.style.animation = '';
-    }, 500); // Adjust the timeout value to match the animation duration
-}
+// function closeMenu() {
+//     // Apply the "back" animation to the entire nav-items element
+//     navItems.style.animation = 'back 0.5s forwards';
+//     blackSpace.style.animation = 'back 0.5s forwards';
+//     setTimeout(function () {
+//         navItems.style.display = 'none';
+//         blackSpace.style.display = 'none';
+//         document.documentElement.style.overflowY = 'auto';
+//         document.body.style.overflowY = 'auto';
+//         // menuIcon.style.marginRight = '0';
+//         topIconPart.classList.remove('active-top');
+//         bottomIconPart.classList.remove('active-bottom');
+//         // Reset the animation properties for the nav-items element
+//         navItems.style.animation = '';
+//         blackSpace.style.animation = '';
+//     }, 500); // Adjust the timeout value to match the animation duration
+// }
 
-menuIcon.addEventListener('click', function () {
-    if (navItems.style.display === 'none' || navItems.style.display === '') {
-        openMenu();
-    } else {
-        closeMenu();
-    }
-});
+// menuIcon.addEventListener('click', function () {
+//     if (navItems.style.display === 'none' || navItems.style.display === '') {
+//         openMenu();
+//     } else {
+//         closeMenu();
+//     }
+// });
 
 
+
+
+
+
+
+
+
+
+var prevScrollpos2 = window.scrollY;
+window.addEventListener('scroll', () => {
+    var currentScrollPos2 = window.scrollY;
+    if (prevScrollpos2 > currentScrollPos2 || currentScrollPos2 <= 150) {
+        menuIcon.style.visibility = "visible";
+        menuIcon.style.opacity = "1";
+        navBrand.style.visibility = "visible";
+        navBrand.style.opacity = "1";
+      } else {
+        menuIcon.style.visibility = "hidden";
+        menuIcon.style.opacity = "0";
+        navBrand.style.visibility = "hidden";
+        navBrand.style.opacity = "0";
+      }
+
+    prevScrollpos2 = currentScrollPos2;
+})
   
 
 
 
 // HERO 2
 
-const track = document.getElementById("image-track");
-const slideFriction = 20;
+const stickySections = [...document.querySelectorAll('.sticky')];
+let images = [
+    'images/1.jpg',
+    'images/2.jpg',
+    'images/3.jpg',
+    'images/4.jpg',
+    'images/5.jpg',
+    'images/6.jpg',
+    'images/7.jpg'
+];
 
-window.onmousedown = e => {
-    track.dataset.mouseDownAt = e.clientX;
-}
-
-window.onmousemove = e => {
-
-    if (track.dataset.mouseDownAt === "0") return;
-
-    var mouseDelta = parseFloat(track.dataset.mouseDownAt) - e.clientX,
-    maxDelta = window.innerWidth * slideFriction;
-
-    // Check if track.dataset.percentage is a number. If it is not, set it to 0.
-    if (isNaN(parseFloat(track.dataset.percentage))) {
-        track.dataset.percentage = 0;
-    }
-
-    var percentage = - (mouseDelta / maxDelta) * 100,
-    nextPercentageUnconstrained = parseFloat(track.dataset.percentage) + percentage,
-    nextPercentage = Math.max(Math.min(nextPercentageUnconstrained, 0), -72);
-
-    track.dataset.percentage = nextPercentage;
-
-    track.animate(
-        {
-            transform: `translate(${nextPercentage}%, -50%)`
-        }, 
-        {
-            duration: 1200, fill: "forwards"
-        }
-    )
-
-    for (const image of track.getElementsByClassName("hero-2-image")){
-        image.animate(
-            {
-                objectPosition: `${nextPercentage + 100}% 50%`
-            }, 
-            {
-                duration: 1200, fill: "forwards"
-            }
-        )
-    }
-}
-
-window.onmouseup = () => {
-    track.dataset.mouseDownAt = 0;
-    track.dataset.prevPercentage = track.dataset.percentage;
-}
-
-const dragMessage = document.getElementById('drag-message');
-
-// Add a click event listener to the div
-dragMessage.addEventListener('mousedown', function () {
-    // Hide the div by setting its display property to 'none'
-    dragMessage.style.opacity = '0';
-    setTimeout(function() {
-        dragMessage.style.display = 'none';
-    }, 500)
+images.forEach(img => {
+    stickySections.forEach(section => {
+        let image = document.createElement('img');
+        image.src = img;
+        section.querySelector('.scroll-section').appendChild(image)
+    })
 });
 
+window.addEventListener('scroll', (e) => {
+    for(let i = 0; i < stickySections.length; i++) {
+        transform(stickySections[i]);
+    }
+})
+
+function transform(section) {
+    const offsetTop = section.parentElement.offsetTop;
+    const scrollSection = section.querySelector('.scroll-section');
+    let percentage = ((window.scrollY - offsetTop) / window.innerHeight) * 100;
+    percentage = percentage < 0 ? 0 : percentage > 370 ? 370 : percentage;
+
+    percentage = percentage * 0.5;
+
+    scrollSection.animate({
+        transform: `translate3d(${-(percentage)}vw, 0, 0)`
+    }, { duration: 1200, fill: "forwards" });
+
+    let slidePercentage = (percentage / 370) * 100;
+    const images = section.querySelectorAll('img');
+    images.forEach(img => {
+        img.animate({
+            objectPosition: `${100 - slidePercentage}% 50%`
+        }, { duration: 1200, fill: "forwards" });
+    });
+}
 
 
-// const hero2Image = document.getElementsByClassName('hero-2-image');
-// const hero2Video = document.getElementsByClassName('hero-2-video');
-
-// hero2Image.addEventListener('mouseenter', () => {
-//     hero2Video.style.opacity = 1;
-//     hero2Video.play();
-// });
-
-// hero2Image.addEventListener('mouseleave', () => {
-//     hero2Video.style.opacity = 0;
-//     hero2Video.pause();
-// });
-
-// Function to add event listeners to a video element
 function setupVideoHoverBehavior(videoElement) {
-    let isMouseDown = false;
-
-    // Add an event listener to track the mouse button state
-    document.body.addEventListener('mousedown', function (event) {
-        if (event.button === 0) {
-            isMouseDown = true;
-        }
-    });
-
-    document.body.addEventListener('mouseup', function (event) {
-        if (event.button === 0) {
-            isMouseDown = false;
-        }
-    });
+    let isHovering = false;
+    let isScrolling = false;
 
     videoElement.addEventListener('mouseenter', function () {
-        if (!isMouseDown) {
+        if (!isScrolling) {
             videoElement.style.opacity = '1';
-            videoElement.play();
+            if (!isHovering) {
+                videoElement.play();
+                isHovering = true;
+            }
         }
     });
 
     videoElement.addEventListener('mouseleave', function () {
         videoElement.style.opacity = '0';
         videoElement.pause();
+        isHovering = false;
+    });
+
+    window.addEventListener('scroll', function () {
+        isScrolling = true;
+        videoElement.style.opacity = '0';
+        videoElement.pause();
+
+        // After a short delay (e.g., 200ms), reset the scrolling state
+        setTimeout(function () {
+            isScrolling = false;
+        }, 200);
     });
 }
 
 // Get all the video elements by their IDs and set up the event listeners for each
-const hero2Video1st = document.getElementById('hero-2-video-1');
-const hero2Video2nd = document.getElementById('hero-2-video-2');
-const hero2Video3rd = document.getElementById('hero-2-video-3');
-const hero2Video4th = document.getElementById('hero-2-video-4');
-const hero2Video5th = document.getElementById('hero-2-video-5');
-const hero2Video6th = document.getElementById('hero-2-video-6');
-const hero2Video7th = document.getElementById('hero-2-video-7');
-// Add more elements as needed
+const videoElements = [
+    document.getElementById('hero-2-video-1'),
+    document.getElementById('hero-2-video-2'),
+    document.getElementById('hero-2-video-3'),
+    document.getElementById('hero-2-video-4'),
+    document.getElementById('hero-2-video-5'),
+    document.getElementById('hero-2-video-6'),
+    document.getElementById('hero-2-video-7')
+    // Add more elements as needed
+];
 
-// Set up event listeners for each video element
-setupVideoHoverBehavior(hero2Video1st);
-setupVideoHoverBehavior(hero2Video2nd);
-setupVideoHoverBehavior(hero2Video3rd);
-setupVideoHoverBehavior(hero2Video4th);
-setupVideoHoverBehavior(hero2Video5th);
-setupVideoHoverBehavior(hero2Video6th);
-setupVideoHoverBehavior(hero2Video7th);
-// Call setupVideoHoverBehavior for each additional element
+// Set up event listeners for each video element using a loop
+videoElements.forEach(setupVideoHoverBehavior);
 
+window.addEventListener('scroll', () => {
+    console.log(scrollY);
+})
 
 
+
+// let images = [...document.querySelectorAll('.img')];
+// let slider = document.querySelector('.slider');
+// let sliderWidth;
+// let imageWidth;
+// let current = 0;
+// let target = 0;
+// let ease = .05;
+
+// window.addEventListener('resize', init);
+
+// images.forEach((img, idx) => {
+//     img.style.backgroundImage = `url(./images/${idx+1}.jpg)`
+// })
+
+// function lerp(start, end, t) {
+//     return start * (1-t) + end * t;
+// }
+
+// function setTransform(el, transform) {
+//     el.style.transform = transform;
+// }
+
+// function init() {
+//     sliderWidth = slider.getBoundingClientRect().width;
+//     imageWidth = sliderWidth / images.length;
+//     document.body.style.height = `${sliderWidth - (window.innerWidth - window.innerHeight)}px`
+// }
+
+// function animate() {
+//     current = parseFloat(lerp(current, target, ease)).toFixed(2);
+//     target = window.scrollY;
+//     setTransform(slider, `translateX(-${current}px)`)
+//     animateImages();
+//     requestAnimationFrame(animate);
+// }
+
+// function animateImages() {
+//     let ratio = current / imageWidth;
+//     let intersectionRatioValue;
+
+//     images.forEach((image, idx) => {
+//         intersectionRatioValue = ratio - (idx * 0.7);
+//         setTransform(image, `transformX(${intersectionRatioValue * 70}px)`)
+//     })
+// }
+
+// init();
+// animate();
 
 
 
@@ -368,6 +542,14 @@ const acc1 = document.getElementById('acc-btn-1');
 const acc2 = document.getElementById('acc-btn-2');
 const acc3 = document.getElementById('acc-btn-3');
 const acc4 = document.getElementById('acc-btn-4');
+
+
+
+
+
+
+
+
 
 var img1 = document.getElementById('image-1-hero-3');
 var img2 = document.getElementById('image-2-hero-3');
@@ -602,12 +784,12 @@ const links = [
     document.getElementById('nav-links-1'),
     document.getElementById('nav-links-2'),
     document.getElementById('nav-links-3'),
-    document.getElementById('nav-links-4'),
+    // document.getElementById('nav-links-4'),
     document.getElementById('nav-links-5'),
     acc1,
     acc2,
     acc3,
-    acc4
+    acc4,
 ];
   
   function addRandomTextEffect(link) {
@@ -640,23 +822,22 @@ const links = [
 
 
 
-const themeToggle = document.getElementById('switch');
-const lightBg = document.getElementById("light-bg");
-
-themeToggle.addEventListener('mousedown', function() {
-    document.body.classList.toggle("light-theme");
-    lightBg.classList.toggle("show");
-
-    if(!lightBg.classList.contains("show")) {
-        document.body.classList.remove("light-theme");
-        lightBg.classList.remove("show");
-    }
-}) 
 
 
 
 
-var rellax = new Rellax('.rellax');
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -681,3 +862,5 @@ Pace.on('done', function() {
               ease: Expo.easeInOut
         })
    });
+
+
